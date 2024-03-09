@@ -1,9 +1,9 @@
 package uz.pdp.gymfitnessapp.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import uz.pdp.gymfitnessapp.entity.enums.CardType;
 
 import java.time.LocalDate;
 
@@ -11,14 +11,19 @@ import java.time.LocalDate;
 @Setter
 public class CardCreateDto {
     @NotNull
+    @NotBlank
     private String userName;
     @NotNull
+    @NotBlank
     private String number;
     @NotNull
+    @NotBlank
     private LocalDate expiration;
     @NotNull
+    @NotBlank
     private String cvc;
     @NotNull
-    private CardType type;
+    @NotBlank
+    private String type;
     private boolean isDefault;
 }
