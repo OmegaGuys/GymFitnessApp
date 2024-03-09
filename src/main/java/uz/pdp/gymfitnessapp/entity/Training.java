@@ -6,6 +6,8 @@ import lombok.EqualsAndHashCode;
 import uz.pdp.gymfitnessapp.entity.enums.Category;
 import uz.pdp.gymfitnessapp.entity.temp.AbsUUIDEntity;
 
+import java.util.UUID;
+
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
@@ -25,7 +27,8 @@ public class Training extends AbsUUIDEntity {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    private boolean isPremium;
+    @ManyToOne
+    private Trainer trainer;
 
     @OneToOne
     private Attachment video;

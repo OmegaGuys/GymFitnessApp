@@ -29,7 +29,7 @@ public class TrainerService extends GenericService<Trainer, UUID, TrainerRespons
         }
         Trainer trainer = mapper.toEntity(trainerCreateDTO);
         trainer.setPassword(trainerCreateDTO.getPassword());
-        repository.save(trainer);
+        trainer = repository.save(trainer);
         return mapper.toResponseDto(trainer);
     }
 
