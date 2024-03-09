@@ -1,9 +1,13 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
 spring:
   datasource:
     username: postgres
     password: rut123
-    url: jdbc:postgresql://localhost:5432/gym_fitness_app
+    url: jdbc:postgresql://localhost:5432/postgres
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true

@@ -1,5 +1,7 @@
 package uz.pdp.gymfitnessapp.entity.enums;
 
 public enum TrainingType {
-    SOME
+    SOME,
+    ANY,
+    EVERY
 }

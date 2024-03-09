@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 @Data
 public class Trainer extends AbsUUIDEntity {
+
     private String fullName;
 
     private String email;

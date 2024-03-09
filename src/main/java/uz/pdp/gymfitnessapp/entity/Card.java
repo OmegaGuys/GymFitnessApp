@@ -27,6 +27,7 @@ public class Card extends AbsUUIDEntity {
     private String cvc;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private CardType type;
 
     private boolean isDefault;

@@ -1,13 +1,16 @@
 package uz.pdp.gymfitnessapp.exception;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.LazyInitializationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.codec.DecodingException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -89,11 +92,23 @@ public class ApiExceptionHandler {
         return new ResponseEntity<>(ApiResponse.respond(false, e.getMessage()), HttpStatus.METHOD_NOT_ALLOWED);
     }
 
+    @ExceptionHandler(InvalidDataAccessApiUsageException.class)
+    public ResponseEntity<ApiResponse<?>> handleException(InvalidDataAccessApiUsageException e) {
+        return new ResponseEntity<>(ApiResponse.respond(false, e.getMessage()), HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<?>> handleException(Exception e) {
         return new ResponseEntity<>(
                 ApiResponse.respond(false, e.getMessage()),
                 HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponse<?>> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        return new ResponseEntity<>(
+                ApiResponse.respond(false, e.getMessage()),
+                HttpStatus.BAD_REQUEST
         );
     }
 
