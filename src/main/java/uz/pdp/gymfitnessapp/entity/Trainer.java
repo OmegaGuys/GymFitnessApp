@@ -14,6 +14,10 @@ import java.util.List;
 public class Trainer extends AbsUUIDEntity {
     private String fullName;
 
+    private String email;
+
+    private String password;
+
     @Enumerated(EnumType.STRING)
     private TrainingType trainingType;
 

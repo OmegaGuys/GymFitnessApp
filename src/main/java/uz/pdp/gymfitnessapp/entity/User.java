@@ -3,6 +3,7 @@ package uz.pdp.gymfitnessapp.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import uz.pdp.gymfitnessapp.entity.enums.FitnessLevel;
 import uz.pdp.gymfitnessapp.entity.enums.Gender;
@@ -15,6 +16,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Entity(name = "users")
 @Data
+@DynamicUpdate
 public class User extends AbsUUIDEntity {
     @Column(nullable = false)
     private String fullName;
@@ -44,7 +46,7 @@ public class User extends AbsUUIDEntity {
     @ManyToOne
     private Attachment image;
 
-    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Card> cards;
 
     @ManyToMany
