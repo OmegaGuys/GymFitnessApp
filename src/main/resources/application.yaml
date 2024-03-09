@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    username: postgres
+    password: 5825
+    url: jdbc:postgresql://localhost:5432/gym_fitness_app
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
