@@ -11,6 +11,7 @@ import uz.pdp.gymfitnessapp.entity.enums.Goal;
 import uz.pdp.gymfitnessapp.entity.temp.AbsUUIDEntity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -47,7 +48,7 @@ public class User extends AbsUUIDEntity {
     private Attachment image;
 
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    private List<Card> cards;
+    private List<Card> cards = new ArrayList<>();
 
     @ManyToMany
     private List<Notification> notifications;
