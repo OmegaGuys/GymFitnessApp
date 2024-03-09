@@ -15,5 +15,5 @@ import java.util.UUID;
 public abstract class AbsUUIDEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    protected UUID id;
+    private UUID id;
 }
