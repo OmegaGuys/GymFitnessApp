@@ -1,9 +1,18 @@
 server:
   port: 8080
+<<<<<<< HEAD
 spring:
   datasource:
     username: postgres
     password: rut123
+=======
+  servlet:
+    context-path: /api/v1
+spring:
+  datasource:
+    username: postgres
+    password: 123
+>>>>>>> e9fc539 (trainer crud)
     url: jdbc:postgresql://localhost:5432/postgres
   jpa:
     hibernate:
