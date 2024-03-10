@@ -1,4 +1,4 @@
-package uz.pdp.gymfitnessapp.common;
+package uz.pdp.gymfitnessapp.config;
 
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.info.Contact;
