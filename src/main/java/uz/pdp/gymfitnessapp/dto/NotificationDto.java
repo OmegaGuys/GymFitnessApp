@@ -15,4 +15,5 @@ public class NotificationDto {
     private String title;
     @NotEmpty
     private String text;
+    private boolean isAboutEvent;
 }
