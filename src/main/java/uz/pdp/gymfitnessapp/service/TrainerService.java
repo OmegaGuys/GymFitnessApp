@@ -36,12 +36,16 @@ public class TrainerService extends GenericService<Trainer, UUID, TrainerRespons
 
     @Override
     public TrainerResponseDTO internalUpdate(UUID id, TrainerUpdateDTO trainerUpdateDTO) {
-        Trainer trainer = repository.findById(id)
-                .orElseThrow(
-                        () -> ApiException.throwException("Trainer with id = %s not found".formatted(id))
-                );
+        Trainer trainer = getById(id);
         mapper.toEntity(trainerUpdateDTO, trainer);
         Trainer updatedTrainer = repository.save(trainer);
         return mapper.toResponseDto(updatedTrainer);
+    }
+
+    protected Trainer getById(UUID id) {
+        return repository.findById(id)
+                .orElseThrow(
+                        () -> ApiException.throwException("Trainer with id = %s not found".formatted(id))
+                );
     }
 }
