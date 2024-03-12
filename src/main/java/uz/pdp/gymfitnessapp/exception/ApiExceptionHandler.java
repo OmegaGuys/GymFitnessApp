@@ -1,6 +1,5 @@
 package uz.pdp.gymfitnessapp.exception;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.LazyInitializationException;
 import org.slf4j.Logger;
@@ -8,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.codec.DecodingException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -109,6 +109,13 @@ public class ApiExceptionHandler {
         return new ResponseEntity<>(
                 ApiResponse.respond(false, e.getMessage()),
                 HttpStatus.BAD_REQUEST
+        );
+    }
+    @ExceptionHandler(RedisConnectionFailureException.class)
+    public ResponseEntity<ApiResponse<?>> handleRedisConnectionFailureException(RedisConnectionFailureException e) {
+        return new ResponseEntity<>(
+                ApiResponse.respond(false, e.getMessage()),
+                HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
 

@@ -12,12 +12,23 @@ import java.util.UUID;
 @Entity
 @Data
 public class Appointment {
+    public Appointment() {
+
+    }
+
     @Embeddable
     @Getter
     @Setter
-    private static class AppointmentId implements Serializable {
+    public static class AppointmentId implements Serializable {
         private UUID userId;
         private UUID trainerId;
+
+        public AppointmentId(UUID userId, UUID trainerId) {
+
+        }
+        public AppointmentId() {
+
+        }
     }
 
     @EmbeddedId
@@ -32,4 +43,11 @@ public class Appointment {
     private Trainer trainer;
 
     private LocalDateTime date;
+
+    public Appointment(User user, Trainer trainer, LocalDateTime date) {
+        this.id = new AppointmentId(user.getId(),trainer.getId());
+        this.user = user;
+        this.trainer = trainer;
+        this.date = date;
+    }
 }

@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import uz.pdp.gymfitnessapp.entity.enums.FitnessLevel;
 import uz.pdp.gymfitnessapp.entity.enums.Gender;
 import uz.pdp.gymfitnessapp.entity.enums.Goal;
@@ -14,6 +16,8 @@ import uz.pdp.gymfitnessapp.entity.temp.AbsUUIDEntity;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @AllArgsConstructor
@@ -22,7 +26,7 @@ import java.util.List;
 @Entity(name = "users")
 @Data
 @DynamicUpdate
-public class User extends AbsUUIDEntity {
+public class User extends AbsUUIDEntity implements UserDetails {
     @Column(nullable = false)
     private String fullName;
 
@@ -61,4 +65,34 @@ public class User extends AbsUUIDEntity {
     private Subscription subscription;
 
     private LocalDate subscribeDate;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
