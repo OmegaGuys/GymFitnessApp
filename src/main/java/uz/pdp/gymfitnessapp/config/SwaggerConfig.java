@@ -35,16 +35,16 @@ public class SwaggerConfig {
                         .url("https://springshop.wiki.github.org/docs"))
                 .servers(List.of(
                         new Server()
-                                .url("http://localhost:8080/api/v1")
+                                .url("http://localhost:8080")
                                 .description("Production")
                 ))
-               /* .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new Components()
                         .addSecuritySchemes("bearerAuth", new SecurityScheme()
                                 .name("bearerAuth")
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("bearer")
-                                .bearerFormat("JWT")))*/
+                                .bearerFormat("JWT")))
                 ;
 
     }
