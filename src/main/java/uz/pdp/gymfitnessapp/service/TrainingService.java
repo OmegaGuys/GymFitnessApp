@@ -33,6 +33,7 @@ public class TrainingService extends GenericService<Training, UUID, TrainingDto,
                     repository.findById(trainingDto.getParentId());
             if (parent.isPresent()) {
                 training.setParent(parent.get());
+            } else throw ApiException.throwException("parent category not found");
             } else ApiException.throwException("parent category not found");
         }
         if (trainingDto.getTrainerId() != null) {
@@ -40,6 +41,7 @@ public class TrainingService extends GenericService<Training, UUID, TrainingDto,
                     trainerRepository.findById(trainingDto.getTrainerId());
             if (trainner.isPresent()) {
                 training.setTrainer(trainner.get());
+            } else throw ApiException.throwException("trainer not found");
             } else ApiException.throwException("trainer not found");
         }
         repository.save(training);
@@ -56,6 +58,14 @@ public class TrainingService extends GenericService<Training, UUID, TrainingDto,
                         repository.findById(trainingDto.getParentId());
                 if (parent.isPresent()) {
                     training1.setParent(parent.get());
+                } else throw ApiException.throwException("parent category not found");
+            }
+            if (trainingDto.getTrainerId() != null) {
+                Optional<Trainer> trainer =
+                        trainerRepository.findById(trainingDto.getTrainerId());
+                if (trainer.isPresent()) {
+                    training1.setTrainer(trainer.get());
+                } else throw ApiException.throwException("trainer not found");
                 } else ApiException.throwException("parent category not found");
             }
             if (trainingDto.getTrainerId() != null) {
@@ -68,7 +78,9 @@ public class TrainingService extends GenericService<Training, UUID, TrainingDto,
             mapper.toEntity(trainingDto, training1);
             repository.save(training1);
 
+        }else throw ApiException.throwException("training not found");
         }else ApiException.throwException("training not found");
+
         return trainingDto;
     }
 
