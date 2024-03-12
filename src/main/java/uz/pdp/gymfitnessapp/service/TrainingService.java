@@ -34,6 +34,7 @@ public class TrainingService extends GenericService<Training, UUID, TrainingDto,
             if (parent.isPresent()) {
                 training.setParent(parent.get());
             } else throw ApiException.throwException("parent category not found");
+            } else ApiException.throwException("parent category not found");
         }
         if (trainingDto.getTrainerId() != null) {
             Optional<Trainer> trainner =
@@ -41,6 +42,7 @@ public class TrainingService extends GenericService<Training, UUID, TrainingDto,
             if (trainner.isPresent()) {
                 training.setTrainer(trainner.get());
             } else throw ApiException.throwException("trainer not found");
+            } else ApiException.throwException("trainer not found");
         }
         repository.save(training);
         return trainingDto;
@@ -64,11 +66,21 @@ public class TrainingService extends GenericService<Training, UUID, TrainingDto,
                 if (trainer.isPresent()) {
                     training1.setTrainer(trainer.get());
                 } else throw ApiException.throwException("trainer not found");
+                } else ApiException.throwException("parent category not found");
+            }
+            if (trainingDto.getTrainerId() != null) {
+                Optional<Trainer> trainner =
+                        trainerRepository.findById(trainingDto.getTrainerId());
+                if (trainner.isPresent()) {
+                    training1.setTrainer(trainner.get());
+                } else ApiException.throwException("trainer not found");
             }
             mapper.toEntity(trainingDto, training1);
             repository.save(training1);
 
         }else throw ApiException.throwException("training not found");
+        }else ApiException.throwException("training not found");
+
         return trainingDto;
     }
 

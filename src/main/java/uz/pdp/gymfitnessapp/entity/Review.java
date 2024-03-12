@@ -1,9 +1,7 @@
 package uz.pdp.gymfitnessapp.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import uz.pdp.gymfitnessapp.entity.enums.ReviewType;
 
@@ -11,12 +9,14 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
 @Data
+@Entity
 public class Review {
     @Embeddable
     @Getter
     @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
     private static class ReviewId implements Serializable {
         private UUID userId;
         private UUID trainerId;
@@ -41,4 +41,8 @@ public class Review {
 
     @CreatedDate
     private LocalDateTime leftDate;
+
+    public void setId(User user, Trainer trainer) {
+        this.id = new ReviewId(user.getId(), trainer.getId());
+    }
 }
