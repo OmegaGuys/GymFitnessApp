@@ -3,6 +3,7 @@ package uz.pdp.gymfitnessapp.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.pdp.gymfitnessapp.common.ApiException;
+import uz.pdp.gymfitnessapp.common.CommonUtils;
 import uz.pdp.gymfitnessapp.common.DataLoader;
 import uz.pdp.gymfitnessapp.entity.Card;
 import uz.pdp.gymfitnessapp.entity.Subscription;
@@ -19,9 +20,8 @@ import java.util.UUID;
 public class SubscriptionService {
     private final UserRepository userRepository;
 
-    public void subscribe(UUID userid, UUID cardId, String subscriptionType) {
-        // todo get user from SecurityContextHolder
-        User user = userRepository.findById(userid).orElseThrow(() -> ApiException.throwException("User not found"));
+    public void subscribe(UUID cardId, String subscriptionType) {
+        User user = CommonUtils.getCurrentUser();
         // todo if user has a MONTHLY and wants YEARLY ...
         if (Objects.nonNull(user.getSubscription()))
             throw ApiException.throwException("You already have a subscription");

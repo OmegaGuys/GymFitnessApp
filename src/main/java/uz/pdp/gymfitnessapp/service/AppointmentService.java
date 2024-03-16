@@ -3,6 +3,7 @@ package uz.pdp.gymfitnessapp.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.pdp.gymfitnessapp.common.ApiException;
+import uz.pdp.gymfitnessapp.common.CommonUtils;
 import uz.pdp.gymfitnessapp.config.AuditingConfig;
 import uz.pdp.gymfitnessapp.dto.AppointmentDto;
 import uz.pdp.gymfitnessapp.entity.Appointment;
@@ -27,16 +28,13 @@ public class AppointmentService {
     public AppointmentDto makeAppointment(AppointmentDto dto) {
         // todo estimate appointment fee
         double appointmentFee = 175.99;
-        UUID userId = auditingConfig.auditorProvider()
-                .getCurrentAuditor()
-                .orElseThrow(() -> ApiException.throwException("there is not user in session"));
+        User user = CommonUtils.getCurrentUser();
         Trainer trainer = trainerRepository.findById(dto.getTrainerId())
                 .orElseThrow(() -> ApiException.throwException("Trainer not found"));
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime appointmentDate = dto.getDate();
 
-        User user = userRepository.findById(userId).orElseThrow();
         Card card = user.getCards()
                 .stream()
                 .filter(userCard -> userCard.getId().equals(dto.getCardId()))

@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import uz.pdp.gymfitnessapp.entity.enums.FitnessLevel;
+import uz.pdp.gymfitnessapp.entity.enums.Goal;
 
 
 @Getter
@@ -24,5 +26,11 @@ public class SignUpDto {
 
     @Size(min = 6, max = 18, message = "Password must be between {min} and {max}")
     private String confirmPassword;
+
+//    @NotNull
+    private FitnessLevel fitnessLvl;
+
+//    @NotNull
+    private Goal goal;
 
 }

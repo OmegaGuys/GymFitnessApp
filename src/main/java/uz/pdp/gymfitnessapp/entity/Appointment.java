@@ -1,9 +1,7 @@
 package uz.pdp.gymfitnessapp.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -11,24 +9,16 @@ import java.util.UUID;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Appointment {
-    public Appointment() {
-
-    }
-
     @Embeddable
     @Getter
     @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class AppointmentId implements Serializable {
         private UUID userId;
         private UUID trainerId;
-
-        public AppointmentId(UUID userId, UUID trainerId) {
-
-        }
-        public AppointmentId() {
-
-        }
     }
 
     @EmbeddedId

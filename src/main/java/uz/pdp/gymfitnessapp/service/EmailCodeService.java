@@ -6,10 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import uz.pdp.gymfitnessapp.common.ApiException;
 import uz.pdp.gymfitnessapp.entity.EmailCode;
 import uz.pdp.gymfitnessapp.repository.EmailCodeRepository;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.Random;
 
@@ -31,7 +33,7 @@ public class EmailCodeService {
         try {
             Optional<EmailCode>  optionalEmailCode = emailCodeRepository.findById(email);
             int code = generateCode();
-            if (optionalEmailCode.isEmpty()){
+            if (optionalEmailCode.isEmpty()) {
                 EmailCode emailCode = EmailCode.builder()
                         .email(email)
                         .code(code)
@@ -42,9 +44,13 @@ public class EmailCodeService {
                 emailCodeRepository.save(emailCode);
                 System.out.println("emailCode = " + emailCode);
                 log.info("EmailCode has been sent to %s".formatted(email));
+                return;
             }
 
             EmailCode updatingEmailCode = optionalEmailCode.get();
+            long dif;
+            if ((dif = ChronoUnit.SECONDS.between(LocalDateTime.now(), updatingEmailCode.getSentTime())) > - 60)
+                throw ApiException.throwException("You can resent email code after %s seconds".formatted(Math.abs(60 + dif)));
 
             updatingEmailCode.setCode(code);
             updatingEmailCode.setSentTime(LocalDateTime.now());
@@ -64,7 +70,7 @@ public class EmailCodeService {
     public boolean verifyEmail(String email, String code){
         EmailCode emailCode = emailCodeRepository.findById(email)
                 .orElseThrow(
-                        () -> new RuntimeException("Email not send to %s".formatted(email))
+                        () -> ApiException.throwException("Email not send to %s".formatted(email))
                 );
         LocalDateTime expirationTime = emailCode.getExpirationTime();
 
@@ -72,9 +78,9 @@ public class EmailCodeService {
             if (code.equals(String.valueOf(emailCode.getCode()))){
                 return true;
             }
-            throw new RuntimeException("Wrong sms code entered");
+            throw ApiException.throwException("Wrong sms code entered");
         }
-        throw new RuntimeException("Code already expired!");
+        throw ApiException.throwException("Code already expired!");
     }
 
     private void sendEmail(String email, int code){

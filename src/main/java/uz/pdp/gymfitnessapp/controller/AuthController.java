@@ -29,7 +29,7 @@ public class AuthController {
 
     @PostMapping("/forget-password/{email:.*}")
     public ApiResponse<?> forgetPassword(@PathVariable @Email String email){
-        String smsCode = authService.resendSmsCode(email);
+        String smsCode = authService.sendSmsCode(email);
         return ApiResponse.body(smsCode);
 
     }

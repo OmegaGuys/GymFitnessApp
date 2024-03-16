@@ -15,9 +15,9 @@ public class SubscriptionController {
     private final SubscriptionService service;
 
     @PostMapping(value = "/{userId}/{cardId}", params = {"subscriptionType"})
-    public ApiResponse<?> subscribe(@PathVariable UUID userId,@PathVariable UUID cardId,
+    public ApiResponse<?> subscribe(@PathVariable UUID cardId,
                                     @RequestParam String subscriptionType) {
-        service.subscribe(userId, cardId, subscriptionType);
+        service.subscribe(cardId, subscriptionType);
         return ApiResponse.respond(true, "Successfully subscribed");
     }
 }

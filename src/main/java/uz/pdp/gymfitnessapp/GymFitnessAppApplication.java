@@ -1,11 +1,12 @@
 package uz.pdp.gymfitnessapp;
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Info;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -13,13 +14,17 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.EnableAsync;
-import uz.pdp.gymfitnessapp.dto.TrainingDto;
-import uz.pdp.gymfitnessapp.entity.temp.AbsUUIDEntity;
+
+import java.io.FileInputStream;
+import java.io.IOException;
 
 @SpringBootApplication
 @OpenAPIDefinition
 @EnableAsync
 public class GymFitnessAppApplication {
+
+    @Value("${gsc.serviceAccountKeyPath}")
+    private String serviceAccountKeyPath;
 
     public static void main(String[] args) {
         SpringApplication.run(GymFitnessAppApplication.class, args);
@@ -45,5 +50,12 @@ public class GymFitnessAppApplication {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         return modelMapper;
+    }
+
+    @Bean
+    public Storage storage() throws IOException {
+        return StorageOptions.newBuilder()
+                .setCredentials(GoogleCredentials.fromStream(new FileInputStream(serviceAccountKeyPath)))
+                .build().getService();
     }
 }

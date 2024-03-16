@@ -25,9 +25,8 @@ public class NotificationController {
     }
 
     @DeleteMapping("/{notificationId}/{userId}")
-    public ApiResponse<?> deleteNotifOfUser(@PathVariable UUID notificationId, @PathVariable UUID userId) {
-        // todo get User from SecurityContextHolder
-        service.deleteNotifOfUser(notificationId, userId);
+    public ApiResponse<?> deleteNotifOfUser(@PathVariable UUID notificationId) {
+        service.deleteNotifOfUser(notificationId);
         return ApiResponse.respond(false, "Successfully deleted");
     }
 }
