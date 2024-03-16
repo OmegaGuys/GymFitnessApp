@@ -30,3 +30,5 @@ spring:
       token:
         expiration: 864000
         secret: WC+qbHYl2B0o02421L+2UayDp2LtczY/3cSkAyErfTjmcEOXNtyjXq0un/SdY4cw
+gsc:
+  serviceAccountKeyPath: src/main/resources/my-project-411810-2d2eae1caef7.json

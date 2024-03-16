@@ -17,8 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
                         securedEnabled = true,
                         jsr250Enabled = true)
 @RequiredArgsConstructor
-public class SecurityConfig
-{
+public class SecurityConfig {
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final String[] WHITE_LIST = {
             "/swagger-ui.html",

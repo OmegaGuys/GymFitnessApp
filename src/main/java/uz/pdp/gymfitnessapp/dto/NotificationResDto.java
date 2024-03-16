@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class NotificationResDto {
-    // todo may add the user
     private String title;
     private String text;
     private LocalDateTime leftDate;

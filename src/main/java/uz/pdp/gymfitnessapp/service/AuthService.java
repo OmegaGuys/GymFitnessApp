@@ -39,7 +39,9 @@ public class AuthService implements UserDetailsService {
         User user = mapper.map(signUpDto, User.class);
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         userRepository.save(user);
-        return mapper.map(user, UserResponseDto.class);    }
+        return mapAndGenerateToken(user);
+    }
+
 
     public UserResponseDto signIn(SignInDto signInDto) {
         String email = signInDto.email();
@@ -47,12 +49,10 @@ public class AuthService implements UserDetailsService {
         if (!passwordEncoder.matches(signInDto.password(), user.getPassword())) {
             throw ApiException.throwException("Email or password is incorrect");
         }
-        UserResponseDto userResponseDto = mapper.map(user, UserResponseDto.class);
-        userResponseDto.setToken(tokenProvider.generateToken(email));
-        return userResponseDto;
+        return mapAndGenerateToken(user);
     }
 
-    public String resendSmsCode(String email) {
+    public String sendSmsCode(String email) {
         emailService.sendVerificationCode(email);
         return "Verification code has been sent to %s successfully".formatted(email);
     }
@@ -71,5 +71,11 @@ public class AuthService implements UserDetailsService {
 
     private User getByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> ApiException.throwException("user not found"));
+    }
+
+    private UserResponseDto mapAndGenerateToken(User user) {
+        UserResponseDto responseDto = mapper.map(user, UserResponseDto.class);
+        responseDto.setToken(tokenProvider.generateToken(user.getEmail()));
+        return responseDto;
     }
 }
