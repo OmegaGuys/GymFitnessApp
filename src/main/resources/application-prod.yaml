@@ -1,11 +1,10 @@
-
 server:
   port: 8080
 spring:
   datasource:
-    username: postgres
-    password: 5825
-    url: jdbc:postgresql://localhost:5432/gym_fitness_app
+    username: avnadmin
+    password: AVNS_EDlZev1SK0umpFPSWyE
+    url: jdbc:postgresql://gym-fitness-app-gym-fitness-app.a.aivencloud.com:13351/gym_fitness_app?ssl=require&user=avnadmin&password=AVNS_EDlZev1SK0umpFPSWyE
   jpa:
     hibernate:
       ddl-auto: update
@@ -31,7 +30,5 @@ spring:
       token:
         expiration: 864000
         secret: WC+qbHYl2B0o02421L+2UayDp2LtczY/3cSkAyErfTjmcEOXNtyjXq0un/SdY4cw
-  profiles:
-    active: prod
 gsc:
-  serviceAccountKeyPath: src/main/resources/my-project-411810-2d2eae1caef7.json
+  serviceAccountKeyPath: ${GOOGLE_CLOUD_CREDENTIALS}

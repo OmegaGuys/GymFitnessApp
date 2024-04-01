@@ -1,6 +1,7 @@
 package uz.pdp.gymfitnessapp.common;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import uz.pdp.gymfitnessapp.entity.Subscription;
@@ -17,6 +18,8 @@ import java.time.LocalDate;
 @Component
 @RequiredArgsConstructor
 public class DataLoader implements CommandLineRunner {
+    @Value("${spring.jpa.hibernate.ddl-auto}")
+    private String ddlAuto;
     private final SubscriptionRepository subscriptionRepository;
     private final UserRepository userRepository;
     private static Subscription MONTHLY;
@@ -24,10 +27,12 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        DataLoader.YEARLY = subscriptionRepository.save(new Subscription(SubscriptionType.YEARLY, 100.99));
-        DataLoader.MONTHLY = subscriptionRepository.save(new Subscription(SubscriptionType.MONTHLY, 15.99));
-//        userRepository.save(new User("Rakhim DeSanta", "rakhim.des@gmail.com", "123123Ab",
-//                Gender.MALE, 63, 165, FitnessLevel.MASTER, Goal.GROW_MUSCLE, LocalDate.now(), null, null, null, null, null));
+        if (ddlAuto.equals("create")) {
+            DataLoader.YEARLY = subscriptionRepository.save(new Subscription(SubscriptionType.YEARLY, 100.99));
+            DataLoader.MONTHLY = subscriptionRepository.save(new Subscription(SubscriptionType.MONTHLY, 15.99));
+        userRepository.save(new User("Rakhim DeSanta", "rakhim.des@gmail.com", "123123Ab",
+                Gender.MALE, 63, 165, FitnessLevel.MASTER, Goal.GROW_MUSCLE, LocalDate.now(), null, null, null, null, null));
+        }
     }
 
     public static Subscription getMonthlySub() {
